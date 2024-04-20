@@ -3,9 +3,11 @@ import threading
 from extract_grammar import GrammaticalQuadrupleExtraction
 from grammar_derivation_visualizer import GrammarDerivationVisualizer
 from output_window import MyOutputWindow
+from tools.banner import banner_str, banner_str_welcome
 
 
 def solve():
+    print(banner_str, '\n', banner_str_welcome)
     # 数据初始化
     grammar_string = "E ::= E + T | T \nT ::= T * F | F \nF ::= ( E ) | i"
     extractor = GrammaticalQuadrupleExtraction()

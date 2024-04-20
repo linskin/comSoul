@@ -31,7 +31,7 @@ class GrammaticalQuadrupleExtraction:
             for item_r in right:
                 if item_r == ' ':
                     continue
-                if item_r > 'Z' or item_r < 'A':
+                if (item_r > 'Z' or item_r < 'A') and item_r not in self.__non_terminators:
                     self.__non_terminators.append(item_r)
         return self.__terminators, self.__non_terminators, self.__production, self.__start
 
