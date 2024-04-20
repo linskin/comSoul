@@ -47,6 +47,13 @@ class GrammarDerivationVisualizer:
                                         bg="#4CAF50", fg="white", relief="raised")
         self._derive_button.grid(row=4, column=0, columnspan=2, pady=5)
 
+    @staticmethod
+    def __find_value_in_list(lst, value):
+        for i, item in enumerate(lst):
+            if item == value:
+                return i
+        return -1
+
     def __input_judgment(self):
         inputs = self._input_string_entry.get()
         if inputs == '':
@@ -95,7 +102,7 @@ class GrammarDerivationVisualizer:
         if not input_string:
             return
         self._input_string_entry.config(state=tk.DISABLED)
-        derived_string = self._start_symbol
+        derived_string = [self._start_symbol]
         result = ""
         tree = {}
 
@@ -105,13 +112,17 @@ class GrammarDerivationVisualizer:
             for key in self._production:
                 if key in derived_string:
                     self._output_text.config(state=tk.NORMAL)  # Enable editing
-                    pos = derived_string.find(key)
+                    # pos = derived_string.find(key)
+                    pos = self.__find_value_in_list(derived_string, key)
+                    mid_string = "".join(derived_string)
                     self._output_text.insert(tk.END,
-                                             "Deriving {} with key:{} pos:{}\n".format(derived_string, key, pos + 1))
+                                             "Deriving {} with key:{} pos:{}\n".format(mid_string, key, pos + 1))
+
                     choice = self.__production_shower(self._production[key], key)
                     end_string = "".join(self._production[key][choice - 1])
-                    result += " => {} ({} -> {})\n".format(derived_string, key, end_string)
-                    derived_string = derived_string[:pos] + end_string + derived_string[pos + len(key):]
+
+                    result += " => {} ({} -> {})\n".format(mid_string, key, end_string)
+                    derived_string[pos:pos + 1] = self._production[key][choice - 1]
                     derived = True
 
                     end_item = [pos + 1, self._production[key][choice - 1]]
@@ -125,12 +136,14 @@ class GrammarDerivationVisualizer:
 
             if derived_string == input_string:
                 self._output_text.config(state=tk.NORMAL)
-                self._output_text.insert(tk.END, "Derive done, the end symbol is {}\n".format(derived_string))
+                mid_string_out = "".join(derived_string)
+                self._output_text.insert(tk.END, "Derive done, the end symbol is {}\n".format(mid_string_out))
                 self.__result_shower(result, tree)
                 break
             if not derived:
                 self._output_text.config(state=tk.NORMAL)  # Enable editing
-                self._output_text.insert(tk.END, "Derive false, the end symbol is {}\n".format(derived_string))
+                mid_string_out = "".join(derived_string)
+                self._output_text.insert(tk.END, "Derive false, the end symbol is {}\n".format(mid_string_out))
                 self.__result_shower(result, tree)
                 break
         self._input_string_entry.config(state=tk.NORMAL)
