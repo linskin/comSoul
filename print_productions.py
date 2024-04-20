@@ -4,14 +4,15 @@ def print_productions(productions):
         tss = ""
         for item in productions[key]:
             for item_s in item:
-                for item_t in item_s:
-                    tss += item_t + ' '
+                tss += item_s + ' '
             tss += '| '
         result += f"{key} ::= {tss[:-2]}\n"
     return result[:-1]
 
 
 if __name__ == "__main__":
-    production = {'S': [['S', 'a'], ['T', 'b', 'c'], ['T', 'd']], 'T': [['S', 'e'], ['g', 'h']]}
+    production2 = {'S': [['S', 'a'], ['T', 'b', 'c'], ['T', 'd']], 'T': [['S', 'e'], ['g', 'h']]}
+    production = {'Tfs': [["F'"], ['Tfs', '*', "F'"]], "F'": [['i'], ['(', 'Ems', ')']],
+                  'Ems': [['Tfs'], ['Ems', '+', 'Tfs']]}
     ans = print_productions(production)
     print(ans)
