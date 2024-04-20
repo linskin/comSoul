@@ -1,5 +1,6 @@
 import threading
 
+from grammartxt import grammar_str
 from compress_grammar import GrammarCleaner
 from extract_grammar import GrammaticalQuadrupleExtraction
 from grammar_derivation_visualizer import GrammarDerivationVisualizer
@@ -10,8 +11,7 @@ from tools.banner import banner_str, banner_str_welcome
 def solve():
     print(banner_str, '\n', banner_str_welcome)
     # 数据初始化
-    with open('grammar.txt', 'r') as f:
-        grammar_string = f.read()
+    grammar_string = grammar_str
     extractor = GrammaticalQuadrupleExtraction()
     terminators, non_terminators, production, start = extractor.extract_grammar_components(grammar_string)
     cleaner = GrammarCleaner()

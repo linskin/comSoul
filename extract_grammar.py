@@ -1,10 +1,20 @@
+import grammartxt
+
+
 class GrammaticalQuadrupleExtraction:
     @staticmethod
     def __extract_from_line(s):
         left, right = s.split('::=')
         return left.strip(), right.strip()
 
-    # @staticmethod
+    @staticmethod
+    def __clean_list(lis):
+        mid_lis = lis.copy()
+        for item in mid_lis:
+            if item == '':
+                mid_lis.remove(item)
+        return mid_lis
+
     def __add_production(self, non_terminal, oneproduction):
         if non_terminal in self.__production:
             self.__production[non_terminal].append(oneproduction)
@@ -27,7 +37,8 @@ class GrammaticalQuadrupleExtraction:
 
     def extract_grammar_components(self, gs):
         gs = gs.replace(' ', '')
-        mid_s = gs.split("\n")
+        # mid_s = gs.split("\n")
+        mid_s = self.__clean_list(gs.split("\n"))
         for item_s in mid_s:
             left, right = self.__extract_from_line(item_s)
             self.__extract_rules_from_right(left, right)
@@ -46,8 +57,9 @@ class GrammaticalQuadrupleExtraction:
 if __name__ == '__main__':
     # 示例用法
     extractor = GrammaticalQuadrupleExtraction()
-    grammar_string = "E ::= E + T | T\nT ::= T * F | F\nF ::= ( E ) | i"
-    terminators, non_terminators, production, start = extractor.extract_grammar_components(grammar_string)
+    grammar_str = grammartxt.grammar_str
+    grammar_string = "E ::= E + T | T\nT ::= T * F | F\nF ::= ( E ) | i\n\n"
+    terminators, non_terminators, production, start = extractor.extract_grammar_components(grammar_str)
     print(terminators)
     print(non_terminators)
     print(production)
