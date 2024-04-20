@@ -9,7 +9,6 @@ def print_productions(productions):
             tss += '| '
         result += f"{key} ::= {tss[:-2]}\n"
     return result[:-1]
-        # print()
 
 
 if __name__ == "__main__":

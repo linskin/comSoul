@@ -80,7 +80,7 @@ class MyOutputWindow:
         self.__update_output_text(ans)
 
     def __show_page3(self):
-        ans = "cleaned production : \n" + self._print_cleaned_production
+        ans = "compressed production : \n" + self._print_cleaned_production
         self.__update_output_text(ans)
 
     def run(self):
