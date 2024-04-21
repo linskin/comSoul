@@ -137,7 +137,7 @@ class GrammarDerivationVisualizer:
                 if derived:
                     break
 
-            if derived_string == input_string:
+            if ''.join(derived_string) == input_string:
                 self._output_text.config(state=tk.NORMAL)
                 mid_string_out = "".join(derived_string)
                 self._output_text.insert(tk.END, "Derive done, the end symbol is {}\n".format(mid_string_out))
@@ -156,8 +156,11 @@ class GrammarDerivationVisualizer:
 
 
 if __name__ == '__main__':
-    productions = {'E': [['E', '+', 'T'], ['T']], 'T': [['T', '*', 'F'], ['F']], 'F': [['(', 'E', ')'], ['i']]}
-    start = 'E'
+    productions2 = {'E': [['E', '+', 'T'], ['T']], 'T': [['T', '*', 'F'], ['F']], 'F': [['(', 'E', ')'], ['i']]}
+    productions = {'Ems': [['Ems', '+', 'Tfs'], ['Tfs']], 'Tfs': [['Tfs', '*', "F'"], ["F'"]],
+                   "F'": [['(', 'Ems', ')'], ['iss']]}
+    start2 = 'E'
+    start = 'Ems'
 
     # 实例化窗口类
     gdv_win = GrammarDerivationVisualizer(productions, start)
