@@ -1,6 +1,7 @@
 import threading
 
 from compress_grammar import GrammarCleaner
+from data.grammar import grammar_str1
 from extract_grammar import GrammaticalQuadrupleExtraction
 from grammar_derivation_visualizer_window import GrammarDerivationVisualizer
 from output_window import MyOutputWindow
