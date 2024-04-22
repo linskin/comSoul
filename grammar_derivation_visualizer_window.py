@@ -72,10 +72,11 @@ class GrammarDerivationVisualizer:
             self._input_box.delete(0, tk.END)
             try:
                 answer = int(answer)
-                if 1 <= answer <= cnt:
+                if (1 <= answer <= cnt) or answer == -1:
                     return answer
                 else:
-                    messagebox.showerror("Error", "Please enter a number from 1 to {}".format(cnt))
+                    messagebox.showerror("Error", "Please enter a number from 1 to {},"
+                                                  " or you can enter -1 to stop.".format(cnt))
                     self._output_text.see(tk.END)  # Scroll to the end of the text
             except ValueError:
                 messagebox.showerror("Error", "Please enter a valid integer")
@@ -86,6 +87,7 @@ class GrammarDerivationVisualizer:
         for i, item in enumerate(production, start=1):
             mid_str = " ".join(item)
             self._output_text.insert(tk.END, "{}: {} => {}\n".format(i, key, mid_str))
+        self._output_text.insert(tk.END, "-1: pull the plug\n")
         self._output_text.insert(tk.END, "-" * 50 + "\n")
         self._output_text.see(tk.END)  # Scroll to the end of the text
         self._output_text.config(state=tk.DISABLED)
@@ -122,6 +124,14 @@ class GrammarDerivationVisualizer:
                                              "Deriving {} with key:{} pos:{}\n".format(mid_string, key, pos + 1))
 
                     choice = self.__production_shower(self._production[key], key)
+                    if choice == -1:
+                        self._output_text.config(state=tk.NORMAL)
+                        self._output_text.insert(tk.END, "You had pull the plug,"
+                                                         " the end symbol is {}\n".format(mid_string))
+                        # print(tree)
+                        self._input_string_entry.config(state=tk.NORMAL)
+                        self.__result_shower(result, tree)
+                        return
                     end_string = "".join(self._production[key][choice - 1])
 
                     result += " => {} ({} -> {})\n".format(mid_string, key, end_string)

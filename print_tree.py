@@ -28,7 +28,10 @@ def generate_tree(tree, start):
             j += 1
             if pre_string[i] in mid_tree:
                 tag = True
-                item_left, item_rigth = mid_tree[pre_string[i]][0]
+                try:
+                    item_left, item_rigth = mid_tree[pre_string[i]][0]
+                except IndexError:
+                    return result
                 if j == item_left:
                     mid_tree[pre_string[i]].pop(0)
                     pre_string[i:i + 1] = insert_separator_uniformly(item_rigth)
@@ -48,7 +51,7 @@ if __name__ == '__main__':
               [14, ['T', '*', 'F']], [14, ['F']]],
         'F': [[1, ['i']], [3, ['i']], [5, ['i']], [7, ['i']], [9, ['i']], [11, ['(', 'E', ')']], [12, ['i']],
               [14, ['i']], [16, ['i']]]}
-    tree_list = {'Ems': [[1, ['Ems', '+', 'Tfs']],
+    tree_list3 = {'Ems': [[1, ['Ems', '+', 'Tfs']],
                          [1, ['Ems', '+', 'Tfs']],
                          [1, ['Tfs']]],
                  'Tfs': [[1, ["F'"]],
@@ -58,5 +61,6 @@ if __name__ == '__main__':
                         [3, ['iss']],
                         [5, ['iss']]]
                  }
+    tree_list = {'Ems': [[1, ['Ems', '+', 'Tfs']], [1, ['Tfs']]], 'Tfs': [[1, ['Tfs', '*', "F'"]], [1, ["F'"]]]}
     ans = generate_tree(tree_list, start)
     print(ans)
